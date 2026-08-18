@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikolaos Dionelis, PhD — AI Foundation Models for Science</title>
+<meta name="description" content="Nikolaos Dionelis, PhD — Principal Research Scientist III at the University of Alabama in Huntsville (UAH), NASA Marshall Space Flight Center (MSFC), Office of Data Science and Informatics (ODSI). AI foundation models for the Sun, Moon, and Earth.">
+<meta property="og:title" content="Nikolaos Dionelis, PhD">
+<meta property="og:description" content="AI Foundation Models for Science — Sun, Moon, Earth. UAH research scientist at NASA MSFC ODSI / IMPACT AI for Science.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --space:#0C1122;        /* deep-space navy: hero, footer */
+  --space-2:#141B33;      /* raised panels on space */
+  --paper:#F4F6F8;        /* cool paper: page background */
+  --card:#FFFFFF;
+  --ink:#18202F;          /* body text */
+  --ink-soft:#4B5568;     /* secondary text */
+  --line:#D8DEE6;
+  --gold:#DFA032;         /* SDO/AIA-171 gold: primary accent */
+  --gold-deep:#B27C1E;
+  --red:#C4553B;          /* AIA-304 red: sparse secondary */
+  --lunar:#9AA4B5;        /* lunar gray */
+  --focus:#2C5BD1;
+  --maxw:1060px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Public Sans',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper);color:var(--ink);
+  font-size:16.5px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--gold-deep);text-decoration:none;border-bottom:1px solid rgba(178,124,30,.35);transition:color .15s,border-color .15s}
+a:hover{color:var(--red);border-bottom-color:var(--red)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:2px}
+.mono{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ---------- top navigation ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(12,17,34,.97);backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(223,160,50,.25);
+}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.nav-name{
+  font-family:'Spectral',Georgia,serif;font-weight:600;font-size:1.02rem;
+  color:#F2F4F8;padding:13px 14px 13px 0;margin-right:auto;border-bottom:none;white-space:nowrap;
+}
+.nav-name:hover{color:var(--gold)}
+.nav-links{display:flex;flex-wrap:wrap;gap:2px}
+.nav-links a{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:500;
+  letter-spacing:.07em;text-transform:uppercase;
+  color:#B9C1D2;padding:15px 10px;border-bottom:2px solid transparent;
+}
+.nav-links a:hover{color:#fff;border-bottom-color:rgba(223,160,50,.5)}
+.nav-links a.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ---------- hero ---------- */
+header{background:var(--space);color:#EDF0F5;position:relative;overflow:hidden}
+header::before{ /* faint solar-limb glow, upper right */
+  content:"";position:absolute;top:-220px;right:-160px;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(223,160,50,.20) 0%,rgba(196,85,59,.08) 45%,transparent 70%);
+  pointer-events:none;
+}
+.hero{max-width:var(--maxw);margin:0 auto;padding:60px 24px 44px;position:relative}
+.hero .eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;
+}
+.hero h1{
+  font-family:'Spectral',Georgia,serif;font-weight:600;
+  font-size:clamp(2.1rem,5vw,3.2rem);line-height:1.08;letter-spacing:-.01em;margin-bottom:12px;
+}
+.hero h1 .phd{font-weight:400;font-style:italic;font-size:.55em;color:var(--lunar)}
+.hero .role{font-size:1.06rem;color:#C9D0DE;max-width:46em}
+.hero .role strong{color:#fff;font-weight:600}
+.hero .loc{font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--lunar);margin-top:14px;letter-spacing:.05em}
+
+/* ---------- signature: instrument band strip ---------- */
+.bands{display:flex;width:100%;height:40px;background:var(--space)}
+.bands span{flex:1;position:relative;min-width:0}
+.bands span i{
+  position:absolute;left:6px;bottom:4px;font-style:normal;
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.04em;
+  color:rgba(255,255,255,.85);white-space:nowrap;overflow:hidden;max-width:calc(100% - 10px);text-overflow:ellipsis;
+}
+.b-171{background:linear-gradient(180deg,#E8B04A,#B27C1E)}      /* SDO AIA 171 Å */
+.b-193{background:linear-gradient(180deg,#C9A86A,#8F7434)}      /* SDO AIA 193 Å */
+.b-304{background:linear-gradient(180deg,#C4553B,#8E3A27)}      /* SDO AIA 304 Å */
+.b-hmi{background:linear-gradient(180deg,#7A828F,#4C525C)}      /* SDO HMI */
+.b-wac{background:linear-gradient(180deg,#AEB6C4,#7E8695)}      /* LRO WAC VIS */
+.b-dtm{background:linear-gradient(180deg,#6E7686,#3F4653)}      /* Lunar DTM */
+.b-s2 {background:linear-gradient(180deg,#5E8A5A,#3C5C3A)}      /* Sentinel-2 */
+.b-s1 {background:linear-gradient(180deg,#3E5B82,#263A56)}      /* Sentinel-1 SAR */
+.bands.thin{height:6px}
+.bands.thin i{display:none}
+
+/* ---------- page sections (hash-routed) ---------- */
+main{min-height:60vh}
+.page{display:none;padding:44px 0 64px;animation:fadein .3s ease}
+.page.visible{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .page{animation:none}
+  html{scroll-behavior:auto}
+}
+h2{
+  font-family:'Spectral',Georgia,serif;font-weight:600;font-size:1.75rem;
+  letter-spacing:-.01em;margin-bottom:6px;
+}
+.kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px;
+}
+.lede{color:var(--ink-soft);max-width:52em;margin-bottom:30px}
+h3{
+  font-family:'Spectral',Georgia,serif;font-weight:600;font-size:1.22rem;
+  margin:36px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+p{margin-bottom:14px;max-width:60em}
+
+/* ---------- home layout ---------- */
+.home-grid{display:grid;grid-template-columns:1fr 300px;gap:36px;align-items:start}
+@media (max-width:820px){.home-grid{grid-template-columns:1fr}}
+.portrait{
+  background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden;
+}
+.portrait .ph{
+  aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 34% 30%,#232C47 0%,var(--space) 70%);
+  color:var(--gold);font-family:'Spectral',serif;font-size:4.4rem;font-weight:600;letter-spacing:.02em;
+}
+/* TODO: replace the .ph placeholder above with:
+   <img src="nikolaos-dionelis.jpg" alt="Portrait of Nikolaos Dionelis" style="width:100%;display:block">  */
+.portrait .caption{padding:14px 16px;font-size:.86rem;color:var(--ink-soft);border-top:1px solid var(--line)}
+.contact-card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:18px 18px 12px;margin-top:18px}
+.contact-card .label{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+.contact-card ul{list-style:none}
+.contact-card li{padding:7px 0;border-bottom:1px dashed var(--line);font-size:.92rem}
+.contact-card li:last-child{border-bottom:none}
+.cv-btn{
+  display:inline-block;margin:16px 0 6px;padding:10px 20px;border-radius:4px;border:none;
+  background:var(--gold);color:var(--space);font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+}
+.cv-btn:hover{background:var(--red);color:#fff;border-bottom:none}
+
+/* updates */
+.updates{list-style:none;margin-top:6px}
+.updates li{
+  display:grid;grid-template-columns:110px 1fr;gap:16px;
+  padding:13px 0;border-bottom:1px solid var(--line);
+}
+.updates .d{font-family:'IBM Plex Mono',monospace;font-size:.74rem;color:var(--red);letter-spacing:.04em;padding-top:3px}
+@media (max-width:560px){.updates li{grid-template-columns:1fr}.updates .d{padding-top:0}}
+
+/* ---------- research area cards ---------- */
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:8px 0 10px}
+@media (max-width:820px){.areas{grid-template-columns:1fr}}
+.area{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:6px;padding:20px}
+.area:nth-child(2){border-top-color:var(--lunar)}
+.area:nth-child(3){border-top-color:#5E8A5A}
+.area .tag{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.area h4{font-family:'Spectral',serif;font-size:1.12rem;font-weight:600;margin:6px 0 10px}
+.area p{font-size:.92rem;color:var(--ink-soft);margin-bottom:0}
+
+/* stats */
+.stats{display:flex;flex-wrap:wrap;gap:14px;margin:22px 0 8px}
+.stat{background:var(--space);color:#EDF0F5;border-radius:6px;padding:16px 22px;min-width:150px}
+.stat .n{font-family:'Spectral',serif;font-size:1.9rem;font-weight:600;color:var(--gold);line-height:1.1}
+.stat .l{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:#B9C1D2;margin-top:4px}
+
+/* ---------- publications ---------- */
+.pubs{list-style:none}
+.pub{
+  display:grid;grid-template-columns:64px 1fr;gap:18px;
+  padding:18px 0;border-bottom:1px solid var(--line);
+}
+@media (max-width:560px){.pub{grid-template-columns:1fr;gap:4px}}
+.pub .year{font-family:'IBM Plex Mono',monospace;font-size:.82rem;font-weight:600;color:var(--red);padding-top:2px}
+.pub .t{font-family:'Spectral',serif;font-weight:600;font-size:1.05rem;line-height:1.4}
+.pub .a{font-size:.9rem;color:var(--ink-soft);margin-top:3px}
+.pub .a b{color:var(--ink);font-weight:600}
+.pub .v{font-size:.9rem;font-style:italic;color:var(--ink-soft);margin-top:2px}
+.pub .links{margin-top:7px;display:flex;flex-wrap:wrap;gap:8px}
+.pub .links a{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.05em;
+  border:1px solid var(--line);border-radius:3px;padding:3px 9px;color:var(--gold-deep);background:var(--card);
+}
+.pub .links a:hover{border-color:var(--red);color:var(--red)}
+.note{font-size:.9rem;color:var(--ink-soft);background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:4px;padding:12px 16px;margin-top:22px}
+
+/* ---------- timeline (education & employment) ---------- */
+.tl{list-style:none;border-left:2px solid var(--line);margin-left:8px;padding-left:28px}
+.tl li{position:relative;padding-bottom:30px}
+.tl li::before{
+  content:"";position:absolute;left:-35px;top:6px;width:12px;height:12px;border-radius:50%;
+  background:var(--gold);border:2px solid var(--paper);box-shadow:0 0 0 2px var(--gold);
+}
+.tl li.edu::before{background:var(--lunar);box-shadow:0 0 0 2px var(--lunar)}
+.tl .when{font-family:'IBM Plex Mono',monospace;font-size:.74rem;letter-spacing:.06em;color:var(--red)}
+.tl h4{font-family:'Spectral',serif;font-size:1.14rem;font-weight:600;margin:3px 0 2px}
+.tl .org{font-size:.94rem;font-weight:600;color:var(--ink-soft)}
+.tl p{font-size:.93rem;color:var(--ink-soft);margin:8px 0 0;max-width:56em}
+
+/* ---------- awards ---------- */
+.award-list{list-style:none}
+.award-list li{
+  display:grid;grid-template-columns:96px 1fr;gap:16px;
+  padding:15px 0;border-bottom:1px solid var(--line);
+}
+@media (max-width:560px){.award-list li{grid-template-columns:1fr;gap:2px}}
+.award-list .d{font-family:'IBM Plex Mono',monospace;font-size:.76rem;color:var(--red);padding-top:2px}
+.award-list b{font-weight:600}
+.award-list span{display:block;font-size:.9rem;color:var(--ink-soft);margin-top:2px}
+
+/* ---------- weblinks ---------- */
+.linkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:8px}
+.linkgrid a{
+  display:block;background:var(--card);border:1px solid var(--line);border-radius:6px;
+  padding:14px 16px;border-bottom:1px solid var(--line);
+}
+.linkgrid a:hover{border-color:var(--gold);transform:translateY(-1px)}
+.linkgrid .lt{font-weight:600;font-size:.95rem;color:var(--ink)}
+.linkgrid .lu{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--ink-soft);margin-top:3px;word-break:break-all}
+
+/* ---------- footer ---------- */
+footer{background:var(--space);color:#8E97AB;margin-top:20px}
+.foot{max-width:var(--maxw);margin:0 auto;padding:30px 24px;font-size:.84rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer a{color:var(--lunar);border-bottom-color:rgba(154,164,181,.4)}
+footer a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<nav aria-label="Site">
+  <div class="nav-inner">
+    <a class="nav-name" href="#home">Nikolaos Dionelis</a>
+    <div class="nav-links" id="navlinks">
+      <a href="#home">Home</a>
+      <a href="#research">Research Outputs</a>
+      <a href="#journals">Journals</a>
+      <a href="#conferences">Conference Papers</a>
+      <a href="#education">Education &amp; Employment</a>
+      <a href="#awards">Awards &amp; Grants</a>
+      <a href="#links">Weblinks &amp; Pages</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="hero">
+    <div class="eyebrow">AI Foundation Models for Science &nbsp;·&nbsp; Sun · Moon · Earth</div>
+    <h1>Nikolaos Dionelis <span class="phd">PhD</span></h1>
+    <p class="role"><strong>Principal Research Scientist III</strong>, University of Alabama in Huntsville (UAH) — working at <strong>NASA Marshall Space Flight Center (MSFC)</strong>, Office of Data Science and Informatics (ODSI), IMPACT AI for Science team.</p>
+    <div class="loc">HUNTSVILLE · ALABAMA · USA</div>
+  </div>
+</header>
+
+<!-- Signature element: instrument band strip — the spectral bands and data modalities this research spans -->
+<div class="bands" role="img" aria-label="Spectral bands and data modalities: SDO AIA 171, 193, and 304 angstroms, SDO HMI, LRO WAC visible bands, lunar digital terrain models, Sentinel-2 optical, Sentinel-1 SAR">
+  <span class="b-171"><i>AIA 171&#8201;&#197;</i></span>
+  <span class="b-193"><i>AIA 193&#8201;&#197;</i></span>
+  <span class="b-304"><i>AIA 304&#8201;&#197;</i></span>
+  <span class="b-hmi"><i>HMI</i></span>
+  <span class="b-wac"><i>WAC 415&#8211;689&#8201;nm</i></span>
+  <span class="b-dtm"><i>DTM</i></span>
+  <span class="b-s2"><i>S-2 MSI</i></span>
+  <span class="b-s1"><i>S-1 SAR</i></span>
+</div>
+
+<main class="wrap">
+
+<!-- ============================ HOME ============================ -->
+<section class="page" id="page-home" aria-labelledby="h-home">
+  <div class="home-grid">
+    <div>
+      <div class="kicker">Welcome</div>
+      <h2 id="h-home">Hi, I'm Nikolaos Dionelis</h2>
+      <p class="lede">Research scientist building large-scale, multi-modal AI foundation models for science.</p>
+
+      <p>I am a <strong>Principal Research Scientist III</strong> at the <a href="https://www.uah.edu" target="_blank" rel="noopener">University of Alabama in Huntsville (UAH)</a>, working at <strong>NASA Marshall Space Flight Center (MSFC)</strong> within the <a href="https://www.nasa.gov/marshall/marshall-space-flight-missions/office-of-data-science-and-informatics-odsi/" target="_blank" rel="noopener">Office of Data Science and Informatics (ODSI)</a>, on the <a href="https://www.nasa.gov/marshall/marshall-space-flight-missions/office-of-data-science-and-informatics-odsi/impact-ai/" target="_blank" rel="noopener">IMPACT AI for Science team</a>. I develop AI Foundation Models (FMs) for the <em>Sun</em>, <em>Moon</em>, and <em>Earth</em>, in support of NASA missions including the Artemis program and space-weather resilience, aligned with NASA's <a href="https://science.nasa.gov/artificial-intelligence-science" target="_blank" rel="noopener">AI for Science</a> strategy.</p>
+
+      <p><strong>Research interests.</strong> My research focuses on neural visual tokenization and self-supervised multi-modal learning for scientific imaging: spectral and wavelet-domain tokenizers, finite scalar quantization (FSQ), dual-codebook tokenizers, and multi-modal masked modeling for cross-modal generation. I apply these methods to heliophysics (SDO AIA/HMI), lunar remote sensing (LRO WAC/NAC imagery and digital terrain models), and Earth observation (Sentinel-1/2), with earlier work in generative models, out-of-distribution detection, and statistical signal processing for speech enhancement.</p>
+
+      <p>Before UAH/NASA, I was a Research Fellow at the <strong>European Space Agency (ESA) &Phi;-lab</strong> at ESRIN, Italy, where I contributed to <a href="https://arxiv.org/abs/2504.11171" target="_blank" rel="noopener">TerraMind (ICCV 2025)</a>, the <a href="https://arxiv.org/abs/2401.04464" target="_blank" rel="noopener">PhilEO Bench</a>, and the CARE model; a Research Associate at the <strong>University of Edinburgh</strong> (UDRC); and I hold a <strong>PhD and First-Class Honours MEng from Imperial College London</strong>.</p>
+
+      <!-- TODO: point this button at the live CV (e.g., a Google Drive share link) -->
+      <a class="cv-btn" href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Curriculum Vitae</a>
+
+      <h3>Updates</h3>
+      <ul class="updates">
+        <li><span class="d">JUL 2026</span><span>Promoted to <strong>Principal Research Scientist III</strong> at UAH / NASA MSFC ODSI.</span></li>
+        <li><span class="d">2026</span><span>First-author manuscript on <strong>visual tokenizers for remote sensing and scientific imaging</strong> under peer review; co-authored heliophysics foundation model manuscript under peer review.</span></li>
+        <li><span class="d">2026</span><span>Our team received an <strong>NSF NAIRR compute award</strong> supporting foundation-model pretraining at scale (see <a href="https://www.uah.edu/essc/laboratory-for-applied-science/las-news" target="_blank" rel="noopener">UAH ESSC LAS news</a>).</span></li>
+        <li><span class="d">OCT 2025</span><span>Joined the <strong>University of Alabama in Huntsville</strong> at NASA MSFC, Office of Data Science and Informatics.</span></li>
+        <li><span class="d">2025</span><span><strong>TerraMind</strong>, a large-scale generative multimodal EO foundation model with IBM Research and ESA, presented at <strong>ICCV 2025</strong>.</span></li>
+        <li><span class="d">2025</span><span><strong>Surya</strong>, the heliophysics foundation model lineage our team builds on, released as a public preprint (<a href="https://arxiv.org/abs/2508.14112" target="_blank" rel="noopener">arXiv:2508.14112</a>).</span></li>
+      </ul>
+    </div>
+
+    <aside>
+      <div class="portrait">
+        <div class="ph" aria-hidden="true">ND</div>
+        <div class="caption">Nikolaos Dionelis, PhD<br>UAH · NASA MSFC ODSI</div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Contact &amp; profiles</div>
+        <ul>
+          <li>Email: <a href="mailto:nikolaos.dionelis@uah.edu">nikolaos.dionelis@uah.edu</a></li>
+          <li>Alt: <a href="mailto:nik.dionelis.2023@gmail.com">nik.dionelis.2023@gmail.com</a></li>
+          <li><a href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></li>
+          <li><a href="https://www.linkedin.com/in/nikolaos-dionelis-60688279" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://orcid.org/0000-0001-9662-8537" target="_blank" rel="noopener">ORCID 0000-0001-9662-8537</a></li>
+          <li><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></li>
+          <li><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Dionelis,+N" target="_blank" rel="noopener">arXiv</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ======================= RESEARCH OUTPUTS ======================= -->
+<section class="page" id="page-research" aria-labelledby="h-research">
+  <div class="kicker">Research Outputs</div>
+  <h2 id="h-research">Foundation models, tokenizers, and evaluation for scientific imaging</h2>
+  <p class="lede">Methods that turn petabyte-scale mission data — solar, lunar, and Earth-observing — into representations that models can learn from, generate with, and be judged on.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n">20+</div><div class="l">Peer-reviewed papers</div></div>
+    <div class="stat"><div class="n">354+</div><div class="l">Citations (Scholar)</div></div>
+    <div class="stat"><div class="n">10</div><div class="l">h-index</div></div>
+    <div class="stat"><div class="n">11</div><div class="l">i10-index</div></div>
+  </div>
+  <p style="font-size:.82rem;color:var(--ink-soft)">Citation metrics as of mid-2026 — live figures on <a href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a>.</p>
+
+  <h3>Current research areas — NASA MSFC ODSI / UAH</h3>
+  <div class="areas">
+    <div class="area">
+      <div class="tag">Sun · Heliophysics</div>
+      <h4>Solar foundation models</h4>
+      <p>Self-supervised pretraining on SDO AIA and HMI observations, building on the Surya heliophysics foundation model lineage (<a href="https://arxiv.org/abs/2508.14112" target="_blank" rel="noopener">arXiv:2508.14112</a>), toward space-weather-relevant downstream tasks and long-context solar sequence modeling.</p>
+    </div>
+    <div class="area">
+      <div class="tag">Moon · Lunar remote sensing</div>
+      <h4>Lunar foundation models</h4>
+      <p>Neural visual tokenizers — FSQ, spectral wavelet (DWT/DT-CWT), and dual-codebook designs — for LRO WAC multi-band imagery and digital terrain models, paired with multi-modal masked modeling for cross-modal generation, in support of Artemis-era lunar science.</p>
+    </div>
+    <div class="area">
+      <div class="tag">Earth · EO</div>
+      <h4>Earth observation FMs</h4>
+      <p>Large-scale generative multimodality (TerraMind, ICCV 2025), benchmark design (PhilEO Bench), pretraining scale-up to the MajorTOM dataset, and confidence-aware fine-tuning for segmentation and regression on Sentinel-1/2 data.</p>
+    </div>
+  </div>
+
+  <h3>Method threads</h3>
+  <p><strong>Visual tokenization for scientific data.</strong> Discrete and continuous tokenizers tailored to non-natural imagery: finite scalar quantization hardened for mixed-precision training, wavelet-domain tokenizers that respect the spectral statistics of planetary and solar data, and morphology-aware dual-codebook designs. This work includes matched-compute benchmarking of tokenizer families across reconstruction quality and downstream multi-modal masked-modeling performance.</p>
+  <p><strong>Evaluation beyond PSNR.</strong> Frequency-weighted and physics-aware evaluation metrics for reconstruction and generation — wavelet-subband error weighting, minimal spectral coherence, and local variance error — so that tokenizers and generative models are scored on the structures scientists actually care about.</p>
+  <p><strong>Confidence-aware learning.</strong> Fine-tuning foundation models with calibrated confidence for semantic segmentation (<a href="https://doi.org/10.1109/LGRS.2024.3504293" target="_blank" rel="noopener">IEEE GRSL 2025</a>) and confidence-aware regression of building density (CARE, IJCNN 2025).</p>
+
+  <h3>Earlier research</h3>
+  <p><strong>Out-of-distribution detection and generative models (University of Edinburgh, UDRC).</strong> GAN-based boundary formation and anomaly detection — TailGAN, BDSG, OMASGAN — few-shot robust classification with OoD detection (FROB, CTR), and similarity learning for X-ray security screening (SLX), within the EPSRC/Dstl University Defence Research Collaboration.</p>
+  <p><strong>Statistical speech enhancement (Imperial College London).</strong> Modulation-domain Kalman filtering for single-channel speech denoising and dereverberation, including phase-aware enhancement, published in IEEE/ACM TASLP and at EUSIPCO and HSCMA.</p>
+</section>
+
+<!-- ==================== PEER-REVIEWED JOURNALS ==================== -->
+<section class="page" id="page-journals" aria-labelledby="h-journals">
+  <div class="kicker">Peer-Reviewed Journals</div>
+  <h2 id="h-journals">Journal articles</h2>
+  <p class="lede">Archival journal publications; conference proceedings are listed on the Conference Papers page.</p>
+
+  <ul class="pubs">
+    <li class="pub">
+      <span class="year">2026</span>
+      <div>
+        <div class="t">HeatMat: Simulation of City Material Impact on Urban Heat Island Effect</div>
+        <div class="a">M. Reinbigler, R. Rouffet, P. Naylor, M. Czerkawski, <b>N. Dionelis</b>, E. Brunet, C. I. Fetita, R. Martin</div>
+        <div class="v">Computer Graphics Forum, vol. 45, no. 2, e70376, 2026</div>
+        <div class="links"><a href="https://arxiv.org/abs/2601.22796" target="_blank" rel="noopener">arXiv:2601.22796</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2025</span>
+      <div>
+        <div class="t">Fine-Tuning Foundation Models With Confidence Assessment for Enhanced Semantic Segmentation</div>
+        <div class="a"><b>N. Dionelis</b>, N. Long&eacute;p&eacute;</div>
+        <div class="v">IEEE Geoscience and Remote Sensing Letters, vol. 22, pp. 1&ndash;5, 2025</div>
+        <div class="links">
+          <a href="https://doi.org/10.1109/LGRS.2024.3504293" target="_blank" rel="noopener">DOI</a>
+          <a href="https://arxiv.org/abs/2406.18279" target="_blank" rel="noopener">arXiv:2406.18279</a>
+        </div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2019</span>
+      <div>
+        <div class="t">Modulation-Domain Kalman Filtering for Monaural Blind Speech Denoising and Dereverberation</div>
+        <div class="a"><b>N. Dionelis</b>, M. Brookes</div>
+        <div class="v">IEEE/ACM Transactions on Audio, Speech, and Language Processing, 2019</div>
+        <div class="links"><a href="https://ieeexplore.ieee.org/author/37086129909" target="_blank" rel="noopener">IEEE Xplore</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2018</span>
+      <div>
+        <div class="t">Phase-Aware Single-Channel Speech Enhancement With Modulation-Domain Kalman Filtering</div>
+        <div class="a"><b>N. Dionelis</b>, M. Brookes</div>
+        <div class="v">IEEE/ACM Transactions on Audio, Speech, and Language Processing, 2018</div>
+        <div class="links"><a href="https://ieeexplore.ieee.org/author/37086129909" target="_blank" rel="noopener">IEEE Xplore</a></div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="note">The complete, always-current publication record is on <a href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a>, <a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a>, and <a href="https://ieeexplore.ieee.org/author/37086129909" target="_blank" rel="noopener">IEEE Xplore</a>.</div>
+</section>
+
+<!-- ======================= CONFERENCE PAPERS ======================= -->
+<section class="page" id="page-conferences" aria-labelledby="h-conferences">
+  <div class="kicker">Conference Papers</div>
+  <h2 id="h-conferences">Peer-reviewed conference and workshop papers</h2>
+  <p class="lede">Selected proceedings papers, most recent first.</p>
+
+  <ul class="pubs">
+    <li class="pub">
+      <span class="year">2025</span>
+      <div>
+        <div class="t">TerraMind: Large-Scale Generative Multimodality for Earth Observation</div>
+        <div class="a">J. Jakubik, F. Yang, B. Blumenstiel, E. Scheurer, R. Sedona, S. Maurogiovanni, J. Bosmans, <b>N. Dionelis</b>, V. Marsocci, N. Kopp, R. Ramachandran, P. Fraccaro, T. Brunschwiler, G. Cavallaro, J. Bernab&eacute;-Moreno, N. Long&eacute;p&eacute;</div>
+        <div class="v">IEEE/CVF International Conference on Computer Vision (ICCV), pp. 7383&ndash;7394, 2025</div>
+        <div class="links">
+          <a href="https://doi.org/10.1109/ICCV51701.2025.00693" target="_blank" rel="noopener">DOI</a>
+          <a href="https://arxiv.org/abs/2504.11171" target="_blank" rel="noopener">arXiv:2504.11171</a>
+        </div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2025</span>
+      <div>
+        <div class="t">CARE: Confidence-Aware Regression Estimation of Building Density Fine-Tuning EO Foundation Models</div>
+        <div class="a"><b>N. Dionelis</b>, J. Bosmans, N. Long&eacute;p&eacute;</div>
+        <div class="v">International Joint Conference on Neural Networks (IJCNN), pp. 1&ndash;8, 2025</div>
+        <div class="links"><a href="https://arxiv.org/abs/2502.13734" target="_blank" rel="noopener">arXiv:2502.13734</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2024</span>
+      <div>
+        <div class="t">PhilEO Bench: Evaluating Geo-Spatial Foundation Models</div>
+        <div class="a">C. Fibaek, L. Camilleri, A. Luyts, <b>N. Dionelis</b>, B. Le Saux</div>
+        <div class="v">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), pp. 2739&ndash;2744, 2024</div>
+        <div class="links"><a href="https://arxiv.org/abs/2401.04464" target="_blank" rel="noopener">arXiv:2401.04464</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2024</span>
+      <div>
+        <div class="t">Learning from Unlabelled Data with Transformers: Domain Adaptation for Semantic Segmentation of High Resolution Aerial Images</div>
+        <div class="a"><b>N. Dionelis</b>, F. Pro, L. Maiano, I. Amerini, B. Le Saux</div>
+        <div class="v">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), pp. 8167&ndash;8172, 2024</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2024</span>
+      <div>
+        <div class="t">A Semantic Segmentation-Guided Approach for Ground-to-Aerial Image Matching</div>
+        <div class="a">F. Pro, <b>N. Dionelis</b>, L. Maiano, B. Le Saux, I. Amerini</div>
+        <div class="v">IEEE International Geoscience and Remote Sensing Symposium (IGARSS), pp. 2630&ndash;2635, 2024</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2024</span>
+      <div>
+        <div class="t">Evaluating and Benchmarking Foundation Models for Earth Observation and Geospatial AI</div>
+        <div class="a"><b>N. Dionelis</b>, C. Fibaek, L. Camilleri, A. Luyts, J. Bosmans, B. Le Saux</div>
+        <div class="v">ECCV 2024 Workshops (FOCUS)</div>
+        <div class="links"><a href="https://arxiv.org/abs/2406.18295" target="_blank" rel="noopener">arXiv:2406.18295</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2023</span>
+      <div>
+        <div class="t">SLX: Similarity Learning for X-Ray Screening and Robust Automated Disassembled Object Detection</div>
+        <div class="a"><b>N. Dionelis</b>, R. Jackson, S. A. Tsaftaris, M. Yaghoobi</div>
+        <div class="v">International Joint Conference on Neural Networks (IJCNN), 2023</div>
+        <div class="links"><a href="https://ieeexplore.ieee.org/document/10190997" target="_blank" rel="noopener">IEEE Xplore</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2022</span>
+      <div>
+        <div class="t">FROB: Few-Shot ROBust Model for Joint Classification and Out-of-Distribution Detection</div>
+        <div class="a"><b>N. Dionelis</b>, S. A. Tsaftaris, M. Yaghoobi</div>
+        <div class="v">ECML PKDD 2022, Lecture Notes in Computer Science, pp. 137&ndash;153</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2022</span>
+      <div>
+        <div class="t">CTR: Contrastive Training Recognition Classifier for Few-Shot Open-World Recognition</div>
+        <div class="a"><b>N. Dionelis</b>, S. A. Tsaftaris, M. Yaghoobi</div>
+        <div class="v">International Conference on Pattern Recognition (ICPR), pp. 1792&ndash;1799, 2022</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2022</span>
+      <div>
+        <div class="t">OMASGAN: Out-of-Distribution Minimum Anomaly Score GAN for Anomaly Detection</div>
+        <div class="a"><b>N. Dionelis</b>, S. A. Tsaftaris, M. Yaghoobi</div>
+        <div class="v">Sensor Signal Processing for Defence Conference (SSPD), 2022</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2021</span>
+      <div>
+        <div class="t">Few-Shot Adaptive Detection of Objects of Concern Using Generative Models with Negative Retraining</div>
+        <div class="a"><b>N. Dionelis</b>, M. Yaghoobi, S. A. Tsaftaris</div>
+        <div class="v">IEEE International Conference on Tools with Artificial Intelligence (ICTAI), pp. 528&ndash;535, 2021</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2020</span>
+      <div>
+        <div class="t">Tail of Distribution GAN (TailGAN): Generative-Adversarial-Network-Based Boundary Formation</div>
+        <div class="a"><b>N. Dionelis</b>, M. Yaghoobi, S. A. Tsaftaris</div>
+        <div class="v">Sensor Signal Processing for Defence Conference (SSPD), 2020</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2020</span>
+      <div>
+        <div class="t">Boundary of Distribution Support Generator (BDSG): Sample Generation on the Boundary</div>
+        <div class="a"><b>N. Dionelis</b>, M. Yaghoobi, S. A. Tsaftaris</div>
+        <div class="v">IEEE International Conference on Image Processing (ICIP), 2020</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2018</span>
+      <div>
+        <div class="t">Speech Enhancement Using Kalman Filtering in the Logarithmic Bark Power Spectral Domain</div>
+        <div class="a"><b>N. Dionelis</b>, M. Brookes</div>
+        <div class="v">European Signal Processing Conference (EUSIPCO), pp. 1642&ndash;1646, 2018</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2017</span>
+      <div>
+        <div class="t">Speech Enhancement Using Modulation-Domain Kalman Filtering with Active Speech Level Normalized Log-Spectrum Global Priors</div>
+        <div class="a"><b>N. Dionelis</b>, M. Brookes</div>
+        <div class="v">European Signal Processing Conference (EUSIPCO), 2017</div>
+        <div class="links"><a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a></div>
+      </div>
+    </li>
+  </ul>
+
+  <h3>Preprints and manuscripts under review</h3>
+  <ul class="pubs">
+    <li class="pub">
+      <span class="year">2026</span>
+      <div>
+        <div class="t">Visual tokenizers for remote sensing and scientific imaging</div>
+        <div class="a"><b>N. Dionelis</b> et al. (first author)</div>
+        <div class="v">Under peer review, 2026</div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2026</span>
+      <div>
+        <div class="t">Heliophysics foundation model — long-context solar sequence modeling</div>
+        <div class="a">Co-authored with the NASA MSFC ODSI / UAH team</div>
+        <div class="v">Under peer review, 2026</div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2025</span>
+      <div>
+        <div class="t">Scaling-Up the Pretraining of the Earth Observation Foundation Model PhilEO to the MajorTOM Dataset</div>
+        <div class="a"><b>N. Dionelis</b>, J. Bosmans, R. Musto, G. Paoletti, S. Sarti, G. Cascarano, C. Fibaek, L. Camilleri, B. Le Saux, N. Long&eacute;p&eacute;</div>
+        <div class="v">arXiv preprint, 2025</div>
+        <div class="links"><a href="https://arxiv.org/abs/2506.14765" target="_blank" rel="noopener">arXiv:2506.14765</a></div>
+      </div>
+    </li>
+    <li class="pub">
+      <span class="year">2025</span>
+      <div>
+        <div class="t">Surya: heliophysics foundation model (team lineage)</div>
+        <div class="a">S. Roy et al. — NASA / UAH / IBM collaboration</div>
+        <div class="v">arXiv preprint, 2025</div>
+        <div class="links"><a href="https://arxiv.org/abs/2508.14112" target="_blank" rel="noopener">arXiv:2508.14112</a></div>
+      </div>
+    </li>
+  </ul>
+
+  <div class="note">Additional papers — including HSCMA 2017 and further speech-enhancement work — are indexed on <a href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a> and <a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener">dblp</a>.</div>
+</section>
+
+<!-- ==================== EDUCATION & EMPLOYMENT ==================== -->
+<section class="page" id="page-education" aria-labelledby="h-education">
+  <div class="kicker">Education &amp; Employment</div>
+  <h2 id="h-education">Positions and degrees</h2>
+  <p class="lede">Imperial College London &rarr; University of Edinburgh &rarr; ESA &Phi;-lab &rarr; NASA MSFC / UAH.</p>
+
+  <ul class="tl">
+    <li>
+      <div class="when">OCT 2025 — PRESENT</div>
+      <h4>Principal Research Scientist III</h4>
+      <div class="org">University of Alabama in Huntsville (UAH) · NASA Marshall Space Flight Center (MSFC), Huntsville, AL, USA</div>
+      <p>Office of Data Science and Informatics (ODSI), IMPACT AI for Science team. Joined October 2025 as Research Scientist VI; promoted to Principal Research Scientist III in July 2026. Developing AI foundation models for the Sun, Moon, and Earth — visual tokenization, multi-modal masked modeling, and large-scale pretraining — in collaboration with USRA, IBM, and NVIDIA partners.</p>
+    </li>
+    <li>
+      <div class="when">APR 2023 — OCT 2025</div>
+      <h4>Research Fellow</h4>
+      <div class="org">European Space Agency (ESA), &Phi;-lab, ESRIN — Frascati, Italy</div>
+      <p>Earth-observation foundation models and benchmarks: TerraMind (ICCV 2025) with IBM Research, the PhilEO Bench and PhilEO MajorTOM pretraining scale-up, the CARE confidence-aware regression model, and confidence-calibrated fine-tuning (IEEE GRSL). Collaborators included Nicolas Long&eacute;p&eacute;, Bertrand Le Saux, and Casper Fibaek.</p>
+    </li>
+    <li>
+      <div class="when">MAR 2019 — MAR 2023</div>
+      <h4>Research Associate</h4>
+      <div class="org">University of Edinburgh — University Defence Research Collaboration (UDRC), Edinburgh, UK</div>
+      <p>Generative models, anomaly and out-of-distribution detection, and few-shot robust recognition within the EPSRC/Dstl UDRC in Signal Processing, working with Dr. Mehrdad Yaghoobi, Prof. Sotirios Tsaftaris, and Prof. Mike Davies. Papers include TailGAN, BDSG, OMASGAN, FROB, CTR, and SLX.</p>
+    </li>
+    <li class="edu">
+      <div class="when">2015 — 2019</div>
+      <h4>PhD, Signal Processing</h4>
+      <div class="org">Imperial College London — Speech and Audio Processing Group, Dept. of Electrical and Electronic Engineering</div>
+      <p>Doctoral research on statistical speech enhancement — modulation-domain Kalman filtering, phase-aware single-channel enhancement, denoising and dereverberation — supervised by Prof. Mike Brookes and supported by an EPSRC Doctoral Training Award. Thesis materials on <a href="https://spiral.imperial.ac.uk/search?spc.page=1&amp;query=dionelis&amp;configuration=site" target="_blank" rel="noopener">Imperial Spiral</a>.</p>
+    </li>
+    <li class="edu">
+      <div class="when">2011 — 2015</div>
+      <h4>MEng, Electrical and Electronic Engineering — First-Class Honours</h4>
+      <div class="org">Imperial College London, UK</div>
+      <p>Master of Engineering with First-Class Honours, Department of Electrical and Electronic Engineering.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- ======================== AWARDS & GRANTS ======================== -->
+<section class="page" id="page-awards" aria-labelledby="h-awards">
+  <div class="kicker">Awards &amp; Grants</div>
+  <h2 id="h-awards">Awards, fellowships, and funding</h2>
+  <p class="lede">Selected recognition across the NASA/UAH, ESA, Edinburgh, and Imperial College periods.</p>
+
+  <ul class="award-list">
+    <li><span class="d">2026</span><div><b>Promotion to Principal Research Scientist III</b><span>University of Alabama in Huntsville / NASA MSFC ODSI, July 2026.</span></div></li>
+    <li><span class="d">2026</span><div><b>NSF NAIRR compute award (team)</b><span>National AI Research Resource allocation supporting large-scale foundation-model pretraining; coverage on the <a href="https://www.uah.edu/essc/laboratory-for-applied-science/las-news" target="_blank" rel="noopener">UAH ESSC Laboratory for Applied Science news page</a>.</span></div></li>
+    <li><span class="d">2023–25</span><div><b>ESA &Phi;-lab Research Fellowship</b><span>Competitive research fellowship at the European Space Agency's &Phi;-lab, ESRIN, Italy.</span></div></li>
+    <li><span class="d">2015–19</span><div><b>EPSRC Doctoral Training Award</b><span>Engineering and Physical Sciences Research Council PhD funding, Imperial College London.</span></div></li>
+    <li><span class="d">2015</span><div><b>MEng with First-Class Honours</b><span>Electrical and Electronic Engineering, Imperial College London.</span></div></li>
+  </ul>
+
+  <h3>Professional service</h3>
+  <p>Peer reviewer for international venues including <strong>ICLR</strong>, <strong>ICPR</strong>, <strong>SSPD</strong>, and <strong>InterSpeech</strong>. Contributor to ESA&ndash;NASA collaboration activities on Earth-observation foundation models, including workshop activity hosted at UAH.</p>
+</section>
+
+<!-- ======================= WEBLINKS & PAGES ======================= -->
+<section class="page" id="page-links" aria-labelledby="h-links">
+  <div class="kicker">Weblinks &amp; Pages</div>
+  <h2 id="h-links">Profiles, repositories, and institutional pages</h2>
+  <p class="lede">Everything in one place — academic profiles, publication indexes, and the institutions behind the work.</p>
+
+  <h3>Academic profiles</h3>
+  <div class="linkgrid">
+    <a href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener"><span class="lt">Google Scholar</span><span class="lu">scholar.google.com · 2UweGHoAAAAJ</span></a>
+    <a href="https://orcid.org/0000-0001-9662-8537" target="_blank" rel="noopener"><span class="lt">ORCID</span><span class="lu">0000-0001-9662-8537</span></a>
+    <a href="https://dblp.org/pid/191/1019.html" target="_blank" rel="noopener"><span class="lt">dblp</span><span class="lu">dblp.org/pid/191/1019</span></a>
+    <a href="https://ieeexplore.ieee.org/author/37086129909" target="_blank" rel="noopener"><span class="lt">IEEE Xplore</span><span class="lu">author 37086129909</span></a>
+    <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Dionelis,+N" target="_blank" rel="noopener"><span class="lt">arXiv</span><span class="lu">author search: Dionelis, N</span></a>
+    <a href="https://www.researchgate.net/profile/Nikolaos-Dionelis" target="_blank" rel="noopener"><span class="lt">ResearchGate</span><span class="lu">researchgate.net/profile/Nikolaos-Dionelis</span></a>
+    <a href="https://www.linkedin.com/in/nikolaos-dionelis-60688279" target="_blank" rel="noopener"><span class="lt">LinkedIn</span><span class="lu">nikolaos-dionelis-60688279</span></a>
+    <a href="https://spiral.imperial.ac.uk/search?spc.page=1&amp;query=dionelis&amp;configuration=site" target="_blank" rel="noopener"><span class="lt">Imperial Spiral repository</span><span class="lu">spiral.imperial.ac.uk</span></a>
+    <a href="https://www.commsp.ee.ic.ac.uk/~sap/people-nikolaos-dionelis/" target="_blank" rel="noopener"><span class="lt">Imperial SAP group page</span><span class="lu">commsp.ee.ic.ac.uk/~sap</span></a>
+    <a href="https://udrc.eng.ed.ac.uk/publications/slx-similarity-learning-x-ray-screening-and-robust-automated-disassembled-object" target="_blank" rel="noopener"><span class="lt">UDRC publications</span><span class="lu">udrc.eng.ed.ac.uk</span></a>
+  </div>
+
+  <h3>Institutional pages</h3>
+  <div class="linkgrid">
+    <a href="https://www.nasa.gov/marshall/marshall-space-flight-missions/office-of-data-science-and-informatics-odsi/" target="_blank" rel="noopener"><span class="lt">NASA MSFC — ODSI</span><span class="lu">Office of Data Science and Informatics</span></a>
+    <a href="https://www.nasa.gov/marshall/marshall-space-flight-missions/office-of-data-science-and-informatics-odsi/impact-ai/" target="_blank" rel="noopener"><span class="lt">NASA — IMPACT AI for Science</span><span class="lu">nasa.gov/marshall · impact-ai</span></a>
+    <a href="https://science.nasa.gov/artificial-intelligence-science" target="_blank" rel="noopener"><span class="lt">NASA — AI for Science</span><span class="lu">science.nasa.gov</span></a>
+    <a href="https://www.uah.edu/essc/laboratory-for-applied-science/las-news" target="_blank" rel="noopener"><span class="lt">UAH ESSC — LAS News</span><span class="lu">uah.edu/essc</span></a>
+  </div>
+
+  <h3>Other personal pages</h3>
+  <div class="linkgrid">
+    <a href="https://sites.google.com/view/ndionelis" target="_blank" rel="noopener"><span class="lt">Personal website</span><span class="lu">sites.google.com/view/ndionelis</span></a>
+    <a href="https://sites.google.com/site/nikolaosdionelis" target="_blank" rel="noopener"><span class="lt">Research website</span><span class="lu">sites.google.com/site/nikolaosdionelis</span></a>
+    <a href="https://sites.google.com/view/nikolaos-dionelis/" target="_blank" rel="noopener"><span class="lt">Experience portfolio</span><span class="lu">sites.google.com/view/nikolaos-dionelis</span></a>
+  </div>
+</section>
+
+</main>
+
+<div class="bands thin" aria-hidden="true">
+  <span class="b-171"></span><span class="b-193"></span><span class="b-304"></span><span class="b-hmi"></span>
+  <span class="b-wac"></span><span class="b-dtm"></span><span class="b-s2"></span><span class="b-s1"></span>
+</div>
+
+<footer>
+  <div class="foot">
+    <span>&copy; 2026 Nikolaos Dionelis · Last updated August 2026</span>
+    <span><a href="mailto:nikolaos.dionelis@uah.edu">nikolaos.dionelis@uah.edu</a> · <a href="https://scholar.google.com/citations?user=2UweGHoAAAAJ&amp;hl=en" target="_blank" rel="noopener">Google Scholar</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var pages=['home','research','journals','conferences','education','awards','links'];
+  var titles={home:'Nikolaos Dionelis, PhD',research:'Research Outputs — Nikolaos Dionelis',journals:'Peer-Reviewed Journals — Nikolaos Dionelis',conferences:'Conference Papers — Nikolaos Dionelis',education:'Education & Employment — Nikolaos Dionelis',awards:'Awards & Grants — Nikolaos Dionelis',links:'Weblinks & Pages — Nikolaos Dionelis'};
+  function route(){
+    var h=(location.hash||'#home').replace('#','');
+    if(pages.indexOf(h)===-1)h='home';
+    pages.forEach(function(p){
+      var el=document.getElementById('page-'+p);
+      if(el)el.classList.toggle('visible',p===h);
+    });
+    document.querySelectorAll('#navlinks a').forEach(function(a){
+      a.classList.toggle('active',a.getAttribute('href')==='#'+h);
+    });
+    document.title=titles[h]||titles.home;
+    if(location.hash)window.scrollTo({top:0,behavior:'auto'});
+  }
+  window.addEventListener('hashchange',route);
+  route();
+})();
+</script>
+</body>
+</html>
